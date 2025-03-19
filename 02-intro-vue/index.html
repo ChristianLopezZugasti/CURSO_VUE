@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Hola mundo en VUe</title>
+
+</head>
+<body >
+    
+    <div id="myApp">
+        <h1> Batman Quotes {{ quotes.length}} </h1>
+        <button @click="toggleAuthor"> Toggle Author </button>
+        
+        <input 
+            type="text" 
+            placeholder="Add_quote"
+            @keypress.enter="addQuote"
+            v-model="newMessage">
+        <hr>
+        
+        <ul>
+            <li v-for="({quote,author},index) in quotes"> 
+                <span>{{ index + 1 }} - {{quote}}</span>
+                <blockquote v-if="showAuthor"> {{ author}}</blockquote>
+            </li>
+
+        </ul>
+    </div>
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>    
+    <script src="app.js"></script>
+</body>
+
+</html>
