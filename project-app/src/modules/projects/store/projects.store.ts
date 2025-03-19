@@ -60,12 +60,15 @@ export const useProjectStore = defineStore('projects',()=>{
            //     name: project.name,
             //    task: project.tasks}))
 
-            return{
-                
-                //name,
-                //taskCounter
-                //Completion
-            }
+            return projects.value.map ((project)=>{
+                return {
+                    id: project.id,
+                    name: project.name,
+                    taskCount: project.tasks.length,
+                    completion: //cuantas tareas estan completadas
+
+                }
+            })
         }),
         //Actions // metodos normalitos
         addProject,
