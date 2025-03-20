@@ -92,8 +92,9 @@ const newTask = ref('')
 const addTask = () =>{
     if(!project.value) return;
 
-    projectStore.addTaskToPoject(project.value.id,newTask.value)
-    newTask.value = ''
+   console.log(props.id)
+    projectStore.addTaskToPoject(newTask.value,props.id)
+    
 }
 
 

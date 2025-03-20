@@ -24,14 +24,19 @@ export const useProjectStore = defineStore('projects',()=>{
 
     const addTaskToPoject = (name:string,Projectid:string) => {
         const project = projects.value.find(p => p.id === Projectid);
+      
+
         if(project){
-            if(name.trim().length === 0){return;}
+            console.log('prueba1')
+            if(name.length === 0){return;}
             //no se pone project.value
             project.tasks.push({
                 id: uuidv4(),
                 name: name,
                     
             })
+
+            console.log(project.tasks)
         }
 
     }
@@ -59,13 +64,29 @@ export const useProjectStore = defineStore('projects',()=>{
            //     id: project.id,
            //     name: project.name,
             //    task: project.tasks}))
+             
 
             return projects.value.map ((project)=>{
+                const total = project.tasks.length
+                
+                let taskCompleted = 0
+                     project.tasks.forEach((t)=>{
+                        if (t.completedAt){
+                            taskCompleted++        
+                        }
+                    })
+
+                const promedio = total > 0 ? (taskCompleted / total) * 100 : 0;
+
+                    
+                
+
+
                 return {
                     id: project.id,
                     name: project.name,
-                    taskCount: project.tasks.length,
-                    completion: //cuantas tareas estan completadas
+                    taskCount: total,
+                    completion: Math.round(promedio)//cuantas tareas estan completadas
 
                 }
             })
