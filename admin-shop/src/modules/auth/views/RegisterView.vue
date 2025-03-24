@@ -1,10 +1,11 @@
 <template>
   <h1 class="text-2xl font-semibold mb-4">Nueva cuenta</h1>
-  <form action="#" method="POST">
+  <form @submit.prevent="onRegister" method="POST">
     <!-- Username Input -->
     <div class="mb-4">
       <label for="name" class="block text-gray-600">Nombre</label>
       <input
+        v-model="myForm.fullName"
         type="text"
         id="name"
         name="name"
@@ -15,8 +16,10 @@
 
     <!-- Username Input -->
     <div class="mb-4">
-      <label for="username" class="block text-gray-600">Correo</label>
+      <label for="email" class="block text-gray-600">Correo</label>
       <input
+        v-model="myForm.email"
+        ref="emailInputRef"
         type="email"
         id="email"
         name="email"
@@ -28,6 +31,8 @@
     <div class="mb-4">
       <label for="password" class="block text-gray-600">Password</label>
       <input
+        v-model="myForm.password"
+        ref="passwordInputRef"
         type="password"
         id="password"
         name="password"
@@ -53,3 +58,42 @@
     <RouterLink :to="{ name: 'login' }" class="hover:underline">Login Here</RouterLink>
   </div>
 </template>
+
+<script setup lang="ts">
+import { reactive, ref, watchEffect } from 'vue';
+import { useAuthStore } from '../stores/auth.store';
+import { useToast } from 'vue-toastification';
+
+const authStore = useAuthStore()
+const toast = useToast()
+const emailInputRef = ref<HTMLInputElement| null>(null)
+const passwordInputRef = ref<HTMLInputElement| null>(null)
+
+const myForm = reactive({
+  fullName: '',
+  email:'',
+  password: '',
+})
+
+const onRegister =async() =>{
+  
+  if(myForm.email === ''){
+    return emailInputRef.value?.focus()
+  }
+
+  if(myForm.password.length < 6){
+    return passwordInputRef.value?.focus()
+  }
+
+
+  const {ok,message }  = await authStore.register(myForm.fullName,myForm.email,myForm.password)
+  
+  if(ok) return 
+
+  toast.error(message)
+ 
+
+}
+
+
+</script>

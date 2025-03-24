@@ -2,8 +2,10 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import  { AuthStatus, type User } from '../interfaces'
 import { isAwaitExpression } from 'typescript'
-import { loginAction } from '../actions'
+import { checkAuthAction, loginAction } from '../actions'
 import { useLocalStorage } from '@vueuse/core'
+import { registerAction } from '../actions/register.action'
+
 
 export const useAuthStore = defineStore('auth', () => {
    
@@ -30,6 +32,25 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    const register = async(fullName:string, email:string, password:string) => {
+        try{
+            const registerResp = await registerAction(fullName,email,password)
+           
+            if(!registerResp.ok){
+                logout()
+                return {ok:false,message: registerResp.message}
+            }
+
+            user.value= registerResp.user
+            token.value = registerResp.token
+            authStatus.value = AuthStatus.Authenticated
+            return {ok:true,message: ''}
+
+        }catch(error){
+            logout()
+            return {ok:false,message: error}
+        }
+    }
 
     const logout = () => {
             authStatus.value = AuthStatus.UnAuthenticated
@@ -38,15 +59,33 @@ export const useAuthStore = defineStore('auth', () => {
             return false
     }
 
-const register = async() => {
 
-}
+    const checkAuthStatus = async():Promise<boolean> =>{
+        try{
+            const statusResp = await checkAuthAction()
+            if( !statusResp.ok){
+                logout()
+                return false
+            }
 
+            user.value = statusResp.user
+            token.value = statusResp.token
+            return true
+
+        }catch(error){
+            logout()
+            return false
+
+        }
+    }
+
+   
 
     return {  
         user,
         token,
         authStatus,
+        
 
         //Getters
         isChecking: computed(()=> authStatus.value === AuthStatus.cheking),
@@ -58,6 +97,7 @@ const register = async() => {
 
         //ACtions
         login,
-        register
+        register,
+        checkAuthStatus
     }
 })

@@ -56,7 +56,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
+
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
 
@@ -65,7 +65,7 @@ import { useToast } from 'vue-toastification';
 const authStore = useAuthStore()
 const toast = useToast()
 const emailInputRef = ref<HTMLInputElement| null>(null)
-  const passwordInputRef = ref<HTMLInputElement| null>(null)
+const passwordInputRef = ref<HTMLInputElement| null>(null)
 
 
 // Es util para guardar objetos reactivos , es mejor ref 
