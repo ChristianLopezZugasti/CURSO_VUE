@@ -51,8 +51,8 @@ import ButtonPagination from '@/modules/common/components/ButtonPagination.vue';
 import { getProducts } from '@/modules/products/actions';
 import ProductList from '@/modules/products/components/ProductList.vue';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
-import { ref, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+import { ref, watch, watchEffect } from 'vue';
 
 const route = useRoute()
 const page = ref(Number(route.query.page || 1))

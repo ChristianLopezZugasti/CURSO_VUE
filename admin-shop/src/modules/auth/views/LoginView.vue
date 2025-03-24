@@ -96,6 +96,7 @@ const onLogin = async() => {
 
   //tenemos los datos, falta hacer la peticion post, eso lo sacamos de auth.store
   const ok = await authStore.login(myForm.email,myForm.password)
+  console.log(ok)
   if(ok) return 
 
   toast.error('usuario/contrasena no son correctos')

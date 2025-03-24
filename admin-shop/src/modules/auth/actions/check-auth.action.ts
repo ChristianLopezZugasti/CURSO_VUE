@@ -1,6 +1,7 @@
 import { tesloApi } from "@/api/tesloApi"
 import type { AuthResponse,  User } from "../interfaces"
 import { isAxiosError } from "axios"
+import { convertToObject } from "typescript"
 
 interface CheckError {
     ok:false,
@@ -15,6 +16,7 @@ export const checkAuthAction = async():Promise<CheckError|Checksuccess>=>{
     try{
         //primero verificamos si tenemos el token
         const localToken = localStorage.getItem('token')
+        
         if( localToken && localToken.length < 10){
             return {ok:false}
         }

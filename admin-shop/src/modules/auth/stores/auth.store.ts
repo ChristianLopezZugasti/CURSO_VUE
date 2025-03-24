@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = loginResp.user
             token.value = loginResp.token
             authStatus.value = AuthStatus.Authenticated
+            return true
         }catch(error){
             
             return logout()
@@ -53,6 +54,9 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const logout = () => {
+
+            localStorage.removeItem('token')
+
             authStatus.value = AuthStatus.UnAuthenticated
             user.value = undefined
             token.value = ''
@@ -63,11 +67,13 @@ export const useAuthStore = defineStore('auth', () => {
     const checkAuthStatus = async():Promise<boolean> =>{
         try{
             const statusResp = await checkAuthAction()
+            console.log(statusResp.ok)
             if( !statusResp.ok){
                 logout()
                 return false
             }
 
+            authStatus.value = AuthStatus.Authenticated;
             user.value = statusResp.user
             token.value = statusResp.token
             return true
@@ -90,13 +96,14 @@ export const useAuthStore = defineStore('auth', () => {
         //Getters
         isChecking: computed(()=> authStatus.value === AuthStatus.cheking),
         isAuthenticated: computed(()=> authStatus.value === AuthStatus.Authenticated),
-
+        isAdmin: computed(()=>user.value?.roles.includes('admin') ?? false),
         //Todo : getter paa saer si es Admin o no 
 
         username : computed(()=>user.value?.fullName),
 
         //ACtions
         login,
+        logout,
         register,
         checkAuthStatus
     }

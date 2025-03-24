@@ -14,7 +14,7 @@ const isNotAuthenticatedGuard = async (
 
 
   (authStore.authStatus === AuthStatus.Authenticated)
-  ? next({ name: 'home'})
+  ? next({ name: 'home'})//si esta autenticado
   : next()
 
 

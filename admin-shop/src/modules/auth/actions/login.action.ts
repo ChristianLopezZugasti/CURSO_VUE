@@ -28,6 +28,7 @@ export const loginAction =  async(email: string,password:string
             user: data.user,
             token: data.token,
             
+            
 
         }
     } catch(error){
