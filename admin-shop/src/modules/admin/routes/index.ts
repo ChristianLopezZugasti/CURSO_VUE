@@ -25,6 +25,7 @@ export const adminRoutes: RouteRecordRaw = {
         {
             path: 'products/:productId', //aqui puede ir cualquier nombre 
             name: 'admin-product',
+            props:true , //para que haga match, el del url
             component: ()=> import('@/modules/admin/views/ProductView.vue')
         },
     ]
